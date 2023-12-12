@@ -20,11 +20,11 @@ conda install numba
 ```
 
 ## Execution
-The ELViM code runs with flags to control all possible parameters. To see the options, use
+The ELViM code runs with flags to control all possible parameters. To see the options, use:
 python ELViM.py -h
 
 ## Example
-To run an standard ELViM projection it is only necessary to have the trajectory file.
+To run an standard ELViM projection one only needs the ELVIM.py and the force_scheme.py available here, as well as the desired trajectory file.
 
 ```bash
 python ELViM.py -f trajectory.pdb -o output.dat
