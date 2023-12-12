@@ -37,5 +37,6 @@ python ELViM.py -f trajectory.xtc -t topology.pdb -o output.dat
 
 ## Citation
 Please cite the following papers when using ELViM:
-Oliveira Jr, A. B., Yang, H., Whitford, P. C., & Leite, V. B. (2019). Distinguishing biomolecular pathways and metastable states. Journal of chemical theory and computation, 15(11), 6482-6490.
-Viegas, R. G., Martins, I. B. S., Sanches M. N., Oliveira Jr, A. B., Camargo, J. B., Paulovich, F. V., & Leite, V. B. (2023). ELViM: Exploring Biomolecular Energy Landscapes through Multidimensional Visualization. 
+
+1. Oliveira Jr, A. B., Yang, H., Whitford, P. C., & Leite, V. B. (2019). Distinguishing biomolecular pathways and metastable states. Journal of chemical theory and computation, 15(11), 6482-6490. 
+2. Viegas, R. G., Martins, I. B. S., Sanches M. N., Oliveira Jr, A. B., Camargo, J. B., Paulovich, F. V., & Leite, V. B. (2023). ELViM: Exploring Biomolecular Energy Landscapes through Multidimensional Visualization. 
