@@ -5,7 +5,7 @@ ELViM is a method for visualizing the energy landscapes of biomolecules simulati
 ## Requirements
 
 ### MDTraj
-MDTraj is a python library that allows users to manipulate molecular dynamics (MD) trajectories. 
+MDTraj is a python library that allows users to manipulate molecular dynamics trajectories. 
 To install MDTraj using conda, execute the following command:
 
 ```bash
