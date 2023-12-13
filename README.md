@@ -3,6 +3,7 @@
 ELViM is a method for visualizing the energy landscapes of biomolecules simulations.
 
 ## Requirements
+We recommend the Conda package when installing the required libraries.
 
 ### MDTraj
 MDTraj is a python library that allows users to manipulate molecular dynamics trajectories. 
@@ -17,6 +18,14 @@ To install Numba using conda, execute the following command:
 
 ```bash
 conda install numba
+```
+### NumPy
+NumPy is a library that allows operations with multidimensional array objects. 
+To install NumPy using conda, execute the following command:
+
+
+```bash
+conda install numpy
 ```
 
 ## Execution
