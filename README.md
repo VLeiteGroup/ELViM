@@ -46,7 +46,7 @@ python ELViM.py -f trajectory.xtc -t topology.pdb -o output.dat
 
 ## Analisys Notebook
 
-A notebook illustrating basic visualizations is available in [Colab](https://colab.research.google.com/drive/1ESfxUaycZKsxoPmcTHsRBfGyJRCRlp_U?usp=sharing)
+A notebook illustrating basic visualizations analisys is available in [Colab](https://colab.research.google.com/drive/1ESfxUaycZKsxoPmcTHsRBfGyJRCRlp_U?usp=sharing)
 
 ## Citation
 Please cite the following papers when using ELViM:
