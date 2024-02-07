@@ -9,14 +9,14 @@ We recommend the Conda package when installing the required libraries.
 MDTraj is a python library that allows users to manipulate molecular dynamics trajectories. 
 To install MDTraj using conda, execute the following command:
 
-```bash
+```python
 conda install -c conda-forge mdtraj
 ```
 ### Numba
 Numba is an open source JIT compiler that translates a subset of Python and NumPy code into fast machine code.
 To install Numba using conda, execute the following command:
 
-```bash
+```python
 conda install numba
 ```
 ### NumPy
@@ -24,7 +24,7 @@ NumPy is a library that allows operations with multidimensional array objects.
 To install NumPy using conda, execute the following command:
 
 
-```bash
+```python
 conda install numpy
 ```
 
@@ -35,12 +35,12 @@ python ELViM.py -h
 ## Example
 To run an standard ELViM projection one only needs the ELVIM.py and the force_scheme.py available here, as well as the desired trajectory file.
 
-```bash
+```python
 python ELViM.py -f trajectory.pdb -o output.dat
 ```
 Alternatively, for a xtc file you do required a topology file.
 
-```bash
+```python
 python ELViM.py -f trajectory.xtc -t topology.pdb -o output.dat
 ```
 
