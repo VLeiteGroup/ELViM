@@ -52,4 +52,5 @@ A notebook illustrating basic visualizations analisys is available in [Colab](ht
 Please cite the following papers when using ELViM:
 
 1. Oliveira Jr, A. B., Yang, H., Whitford, P. C., & Leite, V. B. (2019). Distinguishing biomolecular pathways and metastable states. Journal of chemical theory and computation, 15(11), 6482-6490. 
-2. Viegas, R. G., Martins, I. B. S., Sanches M. N., Oliveira Jr, A. B., Camargo, J. B., Paulovich, F. V., & Leite, V. B. (2023). ELViM: Exploring Biomolecular Energy Landscapes through Multidimensional Visualization. 
+2. Rafael Giordano Viegas, Ingrid B. S. Martins, Murilo Nogueira Sanches, Antonio B. Oliveira Junior, Juliana B. de Camargo, Fernando V. Paulovich, and Vitor B. P. Leite
+Journal of Chemical Information and Modeling. DOI: 10.1021/acs.jcim.4c00034 
