@@ -51,7 +51,7 @@ def move(ins1, distance_matrix, projection, learning_rate):
             projection[ins2][1] += learning_rate * delta * (y1y2 / dr2)
     return error / (size-1)
 
-@njit(parallel=False, fastmath=False)
+#@njit(parallel=False, fastmath=False)
 def iteration(index, distance_matrix, projection, learning_rate):
     size = len(projection)
     error = 0
@@ -61,8 +61,8 @@ def iteration(index, distance_matrix, projection, learning_rate):
         error += move(ins1, distance_matrix, projection, learning_rate)
     return error / size 
 
-@njit(fastmath=False)
-def execute(distance_matrix, projection, max_it, learning_rate0=0.5, lrmin= 0.05, decay=0.95, tolerance=0.0000001):
+#@njit(fastmath=False)
+def execute(distance_matrix, projection, max_it, verbose, learning_rate0=0.5, lrmin= 0.05, decay=0.95, tolerance=0.0000001):
     nr_iterations = 0
     size = len(projection)
     error= math.inf
@@ -70,15 +70,28 @@ def execute(distance_matrix, projection, max_it, learning_rate0=0.5, lrmin= 0.05
     p_error = np.zeros(max_it)
     # create random index
     index = np.random.permutation(size)
-    for k in range(max_it):
-        learning_rate = max(learning_rate0 * math.pow((1 - k / max_it), decay), lrmin)
-        new_error = iteration(index, distance_matrix, projection, learning_rate)
-        if math.fabs(new_error - error) < tolerance:
-            break
-        error = new_error
-        p_error[k] = error
-        kstress[k] = stress(distance_matrix, projection)
-        nr_iterations = k + 1  
+    if verbose:
+        from tqdm import tqdm
+        for k in tqdm(range(max_it), desc='Running ELViM projection'):
+            learning_rate = max(learning_rate0 * math.pow((1 - k / max_it), decay), lrmin)
+            new_error = iteration(index, distance_matrix, projection, learning_rate)
+            if math.fabs(new_error - error) < tolerance:
+                break
+            error = new_error
+            p_error[k] = error
+            kstress[k] = stress(distance_matrix, projection)
+            nr_iterations = k + 1 
+    else:
+        for k in range(max_it):
+            learning_rate = max(learning_rate0 * math.pow((1 - k / max_it), decay), lrmin)
+            new_error = iteration(index, distance_matrix, projection, learning_rate)
+            if math.fabs(new_error - error) < tolerance:
+                break
+            error = new_error
+            p_error[k] = error
+            kstress[k] = stress(distance_matrix, projection)
+            nr_iterations = k + 1  
+    
     # setting the min to (0,0)
     min_x = min(projection[:, 0])
     min_y = min(projection[:, 1])
@@ -86,4 +99,3 @@ def execute(distance_matrix, projection, max_it, learning_rate0=0.5, lrmin= 0.05
         projection[i][0] -= min_x
         projection[i][1] -= min_y
     return nr_iterations, p_error, kstress
-
