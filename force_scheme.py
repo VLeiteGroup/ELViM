@@ -1,18 +1,18 @@
-import numpy as np
+import time
 import math
+import numpy as np
 from numba import njit, prange
-import mdtraj as md
 
 
 
-@njit(parallel=True)
+@njit(parallel=True, cache=True)
 def stress(distance_matrix, projection):
     size = len(projection)
     total = len(distance_matrix)
     den = 0
     num = 0
     for i in prange(size):
-        for j in prange(size):
+        for j in range (size):
             dr2 = math.sqrt((projection[i][0] - projection[j][0]) * (projection[i][0] - projection[j][0]) +
                             (projection[i][1] - projection[j][1]) * (projection[i][1] - projection[j][1]))
 
@@ -24,7 +24,7 @@ def stress(distance_matrix, projection):
     return math.sqrt(num / den)
 
 
-@njit(parallel=True, fastmath=False)
+@njit(parallel=True, fastmath=False, cache=True)
 def move(ins1, distance_matrix, projection, learning_rate):
     size = len(projection)
     total = len(distance_matrix)
@@ -61,6 +61,39 @@ def iteration(index, distance_matrix, projection, learning_rate):
         error += move(ins1, distance_matrix, projection, learning_rate)
     return error / size 
 
+@njit(parallel=False, fastmath=False, cache=True)
+def iteration_no_verbose(index, distance_matrix, projection, learning_rate):
+    size = len(projection)
+    error = 0
+
+    for i in prange(size):
+        ins1 = index[i]
+        size = len(projection)
+        total = len(distance_matrix)
+        error_l = 0
+        for ins2 in range(size):
+            if ins1 != ins2:
+                x1x2 = projection[ins2][0] - projection[ins1][0]
+                y1y2 = projection[ins2][1] - projection[ins1][1]
+                dr2 = max(math.sqrt(x1x2 * x1x2 + y1y2 * y1y2), 0.0001)
+
+                # getting te index in the distance matrix and getting the value
+                r = (ins1 + ins2 - math.fabs(ins1 - ins2)) / 2  # min(ins1,ins2)
+                s = (ins1 + ins2 + math.fabs(ins1 - ins2)) / 2  # max(ins1,ins2)
+                drn = distance_matrix[int(total - ((size - r) * (size - r + 1) / 2) + (s - r))]
+
+                # calculate the movement
+                delta = (drn - dr2) #* math.fabs(drn - dr2)
+                
+                error_l += math.fabs(delta)
+
+                # moving
+                projection[ins2][0] += learning_rate * delta * (x1x2 / dr2)
+                projection[ins2][1] += learning_rate * delta * (y1y2 / dr2)
+        error += error_l / (size-1)
+
+    return error / size 
+
 #@njit(fastmath=False)
 def execute(distance_matrix, projection, max_it, verbose, learning_rate0=0.5, lrmin= 0.05, decay=0.95, tolerance=0.0000001):
     nr_iterations = 0
@@ -84,14 +117,14 @@ def execute(distance_matrix, projection, max_it, verbose, learning_rate0=0.5, lr
     else:
         for k in range(max_it):
             learning_rate = max(learning_rate0 * math.pow((1 - k / max_it), decay), lrmin)
-            new_error = iteration(index, distance_matrix, projection, learning_rate)
+            new_error = iteration_no_verbose(index, distance_matrix, projection, learning_rate)
             if math.fabs(new_error - error) < tolerance:
                 break
             error = new_error
             p_error[k] = error
             kstress[k] = stress(distance_matrix, projection)
             nr_iterations = k + 1  
-    
+
     # setting the min to (0,0)
     min_x = min(projection[:, 0])
     min_y = min(projection[:, 1])
